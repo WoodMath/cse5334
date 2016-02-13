@@ -1,0 +1,45 @@
+Posted on: Thursday, February 11, 2016 2:21:48 AM CST
+On project 1
+
+You MUST  write all your codes. You must write your own KNN, Centrods method.
+
+You can call the library code (or download) a code for Linear Regression.
+
+In the project presentation, you show the actual computer running of your codes and output results. Explain the results.
+
+If we find you download/copy codes (except linear regression) from others, you will get a grade F for this project.
+
+You need to bring the computer to you run codes in the class.
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+Hi All,
+
+
+Two data files for Project 1 are ready to use.
+
+1. ATNT50.zip and ATNT50_DataFormat.txt
+
+2. ANTN200.zip and ATNT200_DataFormat.txt
+
+The Linear Regression Algorithm code in MATLAB are also available: MATLABLinRegression.m
+
+You can use ANY computer programming Language. We prefer Matlab.
+
+
+You need to do:
+
+1. KNN 
+
+2. Centroid
+
+3. Linear Regression
+
+The correct class labels for the test data are not provided. Your task is to compute them correctly.
+
+
+Dr. Chris Ding
+
