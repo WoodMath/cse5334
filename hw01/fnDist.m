@@ -1,8 +1,11 @@
 function [ mat_dist ] = fnDist( mat_test, mat_train )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
+    
+    % Calculates distance from each point in 'mat_test' to every point in
+    % 'mat_train'
 
-    if(size(mat_test,2)~=size(mat_tran,2))
+    if(size(mat_test,2)~=size(mat_train,2))
         error('Mismatch in dimension size of points');
     end
 
@@ -20,6 +23,8 @@ function [ mat_dist ] = fnDist( mat_test, mat_train )
     %% Sum along all dimensions of each point
     mat_dist = sum(mat_dist,2);
     mat_dist = permute(mat_dist,[1,3,2]);
+    
+    %% Get acutal distancs
     mat_dist = mat_dist.^0.5;
 
 end
