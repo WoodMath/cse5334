@@ -56,6 +56,6 @@ function [ v_class_nearest ] = fnLinearRegression( mat_test, mat_train, v_class 
     mat_min = min(mat_less_one_squared,[],2);
     
     mat_pos = (repmat(mat_min, [1, i_classes_count])==mat_less_one_squared);
-    v_nearest = sum(repmat(v_unique, [i_test_points_count,1]).*mat_pos,2);
+    v_class_nearest = sum(repmat(v_unique, [i_test_points_count,1]).*mat_pos,2);
 end
 
