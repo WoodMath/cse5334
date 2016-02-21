@@ -31,6 +31,7 @@ function [ v_nearest_class, mat_classes_of_closest ] = fnKNN( mat_test, mat_trai
     mat_temp = fnDist(mat_test, mat_train);
     mat_dist = mat_temp.^2;
 
+    
 
 %     %% Rearrange Test points along 3rd axis
 %     mat_test = permute(mat_test, [3,2,1]);
@@ -53,14 +54,14 @@ function [ v_nearest_class, mat_classes_of_closest ] = fnKNN( mat_test, mat_trai
     
     mat_index = fnSortedIndex(mat_dist);
 
-    mat_classes = repmat(v_class, [1, i_num_test_points]);
+    mat_classes = repmat(v_class, [1, i_test_points_count]);
     mat_indices_of_closest = mat_index(1:i_k,:);
     
     %% Dimension the array
-    mat_classes_of_closest = zeros(i_k, i_num_test_points);
-    v_nearest_class = zeros(i_num_test_points,1);
+    mat_classes_of_closest = zeros(i_k, i_test_points_count);
+    v_nearest_class = zeros(i_test_points_count,1);
     
-    parfor i_col = 1:i_num_test_points
+    parfor i_col = 1:i_test_points_count
         v_indices = mat_indices_of_closest(:,i_col);
         v_classes = mat_classes(v_indices,i_col);
         mat_classes_of_closest(:,i_col) = v_classes;

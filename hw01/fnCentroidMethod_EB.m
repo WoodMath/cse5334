@@ -8,7 +8,7 @@ function [ v_nearest_class, mat_centers ] = fnCentroidMethod( mat_test, mat_trai
 % %     v_class = [1,1,1,1,1,1,2,2,2,2,2,2]';
 % %     v_class = v_class*2;
 
-
+    mat_test = mat_test';
     if(size(mat_test,2) ~= size(mat_train,2))
         error(['Dimensions of points in test data (',size(mat_test,2),') is not same as those in training data (',size(mat_train,2),')']);
     end

@@ -1,4 +1,4 @@
-function [raw, classes, trainData] = readDat(filename) 
+function [raw, classes, trainData] = fnReadDat(filename) 
     raw = csvread(filename);
     
     classes = raw(1,:);
