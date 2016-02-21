@@ -1,4 +1,4 @@
-function [ v_class_nearest ] = fnLinearRegression( mat_test, mat_train, v_class )
+function [ v_class_nearest, mat_nearest_class ] = fnLinearRegression( mat_test, mat_train, v_class )
 % fnLinearRegression Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -31,18 +31,17 @@ function [ v_class_nearest ] = fnLinearRegression( mat_test, mat_train, v_class 
     mat_index = (mat_class==mat_unique);
     mat_train_Y = mat_index;
     
-    mat_train_A = mat_train;
-    mat_pseudo = mat_train_A'*mat_train_A;
-    mat_pseudo_inv = eye(length(mat_pseudo))/mat_pseudo;
+    mat_train_A = cat(2, ones(i_train_points_count,1), mat_train);
+%     mat_pseudo = mat_train_A'*mat_train_A;
+%     mat_pseudo_inv = eye(length(mat_pseudo))/mat_pseudo;
     
     mat_pinv = pinv(mat_train_A);
 
     
-    mat_X = mat_pseudo_inv * mat_train_A' * mat_train_Y;
-
+%     mat_X = mat_pseudo_inv * mat_train_A' * mat_train_Y;
     mat_X = mat_pinv * mat_train_Y;
     
-    mat_test_A = mat_test;
+    mat_test_A = cat(2, ones(i_test_points_count,1), mat_test);
     
     mat_test_Y = mat_test_A * mat_X;
     
@@ -50,12 +49,23 @@ function [ v_class_nearest ] = fnLinearRegression( mat_test, mat_train, v_class 
     
     mat_nearest_class = mat_test_Y;
     
-    %% Find dimensional component closest to 1
-    mat_less_one = mat_nearest_class - 1;
-    mat_less_one_squared = mat_less_one.^2;
-    mat_min = min(mat_less_one_squared,[],2);
+%     %% Find dimensional component closest to 1
+
+%     mat_less_one = mat_nearest_class - 1;
+%     mat_less_one_squared = mat_less_one.^2;
+%     mat_min = min(mat_less_one_squared,[],2);
+%     mat_pos = (repmat(mat_min, [1, i_classes_count])==mat_less_one_squared);
+% %     v_class_nearest = sum(repmat(v_unique, [i_test_points_count,1]).*mat_pos,2);
+%     mat_class_nearest = (mat_pos==0)*999999999 + repmat(v_unique, [i_test_points_count,1]).*(mat_pos==1);
+%     v_class_nearest = min(mat_class_nearest, [], 2);
+
+    mat_nearest_class_max = max(mat_nearest_class, [], 2);
+    mat_classes = repmat(mat_nearest_class_max, [1, i_classes_count]);
+    mat_pos = (mat_nearest_class==mat_classes);
+
+    mat_pos_nearest = (mat_pos==0)*-999999999 + (mat_pos==1).*repmat(v_unique,[i_test_points_count,1]);
+    v_class_nearest = max(mat_pos_nearest,[],2);
     
-    mat_pos = (repmat(mat_min, [1, i_classes_count])==mat_less_one_squared);
-    v_class_nearest = sum(repmat(v_unique, [i_test_points_count,1]).*mat_pos,2);
+    
 end
 

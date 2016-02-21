@@ -1,4 +1,4 @@
-function [ v_nearest_class, mat_centers ] = fnCentroidMethod( mat_test, mat_train, v_class )
+function [ v_nearest_class, mat_centers ] = fnCentroidMethodDiff( mat_test, mat_train, v_class )
 % fnCentroidMethod Summary of this function goes here
 %   Detailed explanation goes here
 
