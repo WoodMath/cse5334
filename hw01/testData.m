@@ -2,7 +2,7 @@ s_datasets = {'ATNT50','ATNT200'};
 s_file_types = {'txt','csv'};
 s_file_names = {'trainDataXY','testDataXY','testDataX'};
 
-s_dataset = s_datasets{1};
+s_dataset = s_datasets{2};
 s_file_type = s_file_types{1};
 s_train_file_name = s_file_names{1};
 s_test_file_name = s_file_names{2};
@@ -32,7 +32,11 @@ mat_test = mat_test';
 
 %%  Use compare 'v_class_test' to resulting classes from 'fnKNN', 'fnCentroidMethod', and 'fnLinearRegressio'
 v_class = v_class_train;
-v_test = fnKNN(mat_test, mat_train, v_class, i_k);
-v_test = fnCentroidMethod(mat_test,mat_train,v_class);
-v_test = fnLinearRegression(mat_test,mat_train,v_class);
+v_class_knn = fnKNN(mat_test, mat_train, v_class, 3);
+v_class_cm = fnCentroidMethod(mat_test,mat_train,v_class);
+v_class_lr = fnLinearRegression(mat_test,mat_train,v_class);
+
+r_knn=sum(mat_class_test==v_class_knn')/length(mat_class_test)
+r_cm=sum(mat_class_test==v_class_cm')/length(mat_class_test)
+r_lr=sum(mat_class_test==v_class_lr')/length(mat_class_test)
 
