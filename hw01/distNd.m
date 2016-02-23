@@ -1,7 +1,7 @@
 function [mat_adj] = distNd(v_points)
 % takes an n-length vector of 1-d points and returns an nxn adjaceny matrices of square distances
 
-	v_points = [1 2 4 7 11; 3 5 8 12 17];
+% 	v_points = [1 2 4 7 11; 3 5 8 12 17];
 
 	v_points = permute(v_points, [2, 1]);
 	mat_adj = repmat(v_points, [1, 1, size(v_points,1)]);
