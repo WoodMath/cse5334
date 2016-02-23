@@ -3,7 +3,7 @@ function [mat_adj] = distNd(v_points)
 
 % 	v_points = [1 2 4 7 11; 3 5 8 12 17];
 
-	v_points = permute(v_points, [2, 1]);
+% 	v_points = permute(v_points, [2, 1]);
 	mat_adj = repmat(v_points, [1, 1, size(v_points,1)]);
 	mat_adj = permute(mat_adj, [1, 3, 2]);
     
