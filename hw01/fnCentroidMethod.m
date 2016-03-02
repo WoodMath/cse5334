@@ -46,7 +46,7 @@ function [ v_nearest_class, mat_centers ] = fnCentroidMethod( mat_test, mat_trai
     
     
     v_nearest_class = zeros(i_test_points_count,1);
-    for i_test = 1:i_test_points_count
+    parfor i_test = 1:i_test_points_count
 
         v_dist=fnDist(mat_test(i_test,:),mat_centers);
         
