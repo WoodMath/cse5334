@@ -4,11 +4,11 @@ s_file_names = {'trainDataXY','testDataXY','testDataX'};
 
 
 %% Control START %%
-i_dataset = 2;          %% 1 is 50, 2 is 200
-b_KNN = 0;
-i_KNN_n = 11;           %% This is the number of nearest neighbors; Max is 45 for 'i_dataset = 1;' and 179 for 'i_dataset = 2;'
+i_dataset = 1;          %% 1 is 50, 2 is 200
+b_KNN = 1;
+i_KNN_n = 35;           %% This is the number of nearest neighbors; Max is 45 for 'i_dataset = 1;' and 179 for 'i_dataset = 2;'
 b_CM = 0;
-b_LR = 1;
+b_LR = 0;
 %% Control STOP %%
 
 if(i_dataset == 1)
@@ -75,7 +75,3 @@ parfor i = v_index
     r_knn = sum(mat_class_test==v_class_knn')/length(mat_class_test);
     v_result(i) = r_knn;
 end
-display('tested')
-v_class_cm'
-display('ground truth')
-mat_class_test
