@@ -3,9 +3,12 @@
 % %   http://www.mathworks.com/help/stats/svmtrain.html
 % %   http://www.mathworks.com/help/stats/svmclassify.html
 
+s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
+s_file_types = {'txt','csv'};
+s_file_names = {'trainDataXY','testDataXY','testDataX'};
 
-
-
+i_dataset = 1;
+v_cross_validate = [1, 1, 5, 1, 1];
 
 [mat_raw_faces, v_class_faces, mat_train_faces] = fnReadDat('ATNTFaceImages400.csv'); 
 [mat_raw_letters, v_class_letters, mat_train_letters] = fnReadDat('HandWrittenLetters.csv'); 
@@ -13,34 +16,48 @@
 v_size_face = [28,23];
 v_size_letter = [20,16];
 
-mat_image_faces = zeros(v_size_face(1), v_size_face(2), length(v_class_faces), 'uint8');
-mat_image_letters = zeros(v_size_letter(1), v_size_letter(2), length(v_class_letters), 'uint8');
-
-parfor i_inc = 1:size(mat_raw_faces, 2)
-	mat_face = mat_raw_faces(2:size(mat_raw_faces, 1), i_inc);
-	mat_face = reshape(mat_face, v_size_face);
-	mat_image_faces(:,:,i_inc) = mat_face;
-
+if(i_dataset == 1) 
+    v_class = v_class_faces';
+    mat_train = mat_train_faces';
+elseif(i_dataset == 2)
+    v_class = v_class_letters';
+    mat_train = mat_train_faces';
 end
 
-parfor i_inc = 1:size(mat_raw_letters, 2)
-	mat_letter = mat_raw_letters(2:size(mat_raw_letters, 1), i_inc);
-	mat_letter = reshape(mat_letter, v_size_letter);
-	mat_image_letters(:,:,i_inc) = 255*mat_letter;
 
-end
-
-%% 'svmtrain' requires observations along rows
-v_class_faces = v_class_faces';
-v_class_letters = v_class_letters';
-mat_train_faces = mat_train_faces';
-mat_train_letters = mat_train_letters';
-
-i_class_count_faces = max(v_class_faces);
-i_class_count_letters = max(v_class_letters);
+fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
+%% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
 
 
-[v_class, v_count]  = fnSVM(mat_train_faces, mat_train_faces, v_class_faces);
+
+% mat_image_faces = zeros(v_size_face(1), v_size_face(2), length(v_class_faces), 'uint8');
+% mat_image_letters = zeros(v_size_letter(1), v_size_letter(2), length(v_class_letters), 'uint8');
+% 
+% parfor i_inc = 1:size(mat_raw_faces, 2)
+% 	mat_face = mat_raw_faces(2:size(mat_raw_faces, 1), i_inc);
+% 	mat_face = reshape(mat_face, v_size_face);
+% 	mat_image_faces(:,:,i_inc) = mat_face;
+% 
+% end
+% 
+% parfor i_inc = 1:size(mat_raw_letters, 2)
+% 	mat_letter = mat_raw_letters(2:size(mat_raw_letters, 1), i_inc);
+% 	mat_letter = reshape(mat_letter, v_size_letter);
+% 	mat_image_letters(:,:,i_inc) = 255*mat_letter;
+% 
+% end
+% 
+% %% 'svmtrain' requires observations along rows
+% v_class_faces = v_class_faces';
+% v_class_letters = v_class_letters';
+% mat_train_faces = mat_train_faces';
+% mat_train_letters = mat_train_letters';
+% 
+% i_class_count_faces = max(v_class_faces);
+% i_class_count_letters = max(v_class_letters);
+
+
+% [v_class, v_count]  = fnSVM(mat_train_faces, mat_train_faces, v_class_faces);
 
 
 % svm_train_letters = svmtrain(mat_train_letters, v_class_letters);
