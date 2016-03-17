@@ -27,7 +27,7 @@ function [ mat_subsets ] = fnSubset( v_set, i_size)
 
     
     %% Iterate through elements in list
-    for i_inc = 1:i_size_set
+    parfor i_inc = 1:i_size_set
 
         %% Get current element and element after
         v_set_prefix = v_set(i_inc);
@@ -50,7 +50,6 @@ function [ mat_subsets ] = fnSubset( v_set, i_size)
         end
 
     end
-
     
 end
 
