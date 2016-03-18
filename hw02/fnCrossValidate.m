@@ -62,7 +62,7 @@ function [ mat_correct] = fnCrossValidate( mat_train, v_class, v_model, i_kfold,
         end
         
 
-        mat_correct(i_inc,1) = sum(v_class_svm == v_test_claass);
+        mat_correct(i_inc,1) = sum(v_class_svm == v_test_class);
         mat_correct(i_inc,2) = sum(v_class_knn == v_test_class);
         mat_correct(i_inc,3) = sum(v_class_cm == v_test_class);
         mat_correct(i_inc,4) = sum(v_class_lr == v_test_class);

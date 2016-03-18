@@ -16,7 +16,7 @@
 
     
     v_model = [1, 1, 3, 1, 1];  
-    fnCrossValidate( mat_train, v_class, v_model, 4, 'False' );
+    mat_results = fnCrossValidate( mat_train, v_class, v_model, 5, 'False' );
     return;    
     
     b_show_knn = 1;
