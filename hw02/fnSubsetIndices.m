@@ -14,5 +14,6 @@ function [ mat_subsets_numerical, mat_subsets_boolean ] = fnSubsetIndices( v_set
         mat_subsets_boolean(inc,:) = sum(mat_use==mat_index,1);
         
     end
+    mat_subsets_boolean = logical(mat_subsets_boolean);
 end
 

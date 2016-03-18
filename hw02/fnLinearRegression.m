@@ -1,4 +1,4 @@
-function [ v_class_nearest, mat_nearest_class ] = fnLinearRegression( mat_test, mat_train, v_class )
+function [ v_nearest_class, mat_nearest_class ] = fnLinearRegression( mat_test, mat_train, v_class )
 % fnLinearRegression Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -64,7 +64,7 @@ function [ v_class_nearest, mat_nearest_class ] = fnLinearRegression( mat_test, 
     mat_pos = (mat_nearest_class==mat_classes);
 
     mat_pos_nearest = (mat_pos==0)*-999999999 + (mat_pos==1).*repmat(v_unique,[i_test_points_count,1]);
-    v_class_nearest = max(mat_pos_nearest,[],2);
+    v_nearest_class = max(mat_pos_nearest,[],2);
     
     
 end

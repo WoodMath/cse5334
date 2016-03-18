@@ -1,4 +1,4 @@
-function [ v_results, v_count ] = fnSVM( mat_test, mat_train, v_class )
+function [ v_nearest_class, v_count ] = fnSVM( mat_test, mat_train, v_class )
 % fnSVM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -20,10 +20,11 @@ function [ v_results, v_count ] = fnSVM( mat_test, mat_train, v_class )
         
     % Get information about unique classes
     v_unique = sort(unique(v_class))';
-    i_classes_count = length(v_unique);
+    i_unique_classes_count = length(v_unique);
+    i_classes_count = max(v_unique);
 
     
-    mat_results = zeros(i_test_points_count, i_classes_count, 'uint8');
+    mat_results = zeros(i_test_points_count, i_classes_count);
     
     for i_class = v_unique
         v_class_ind = (i_class == v_class);
@@ -33,8 +34,8 @@ function [ v_results, v_count ] = fnSVM( mat_test, mat_train, v_class )
     end
     
     v_count = sum(mat_results, 2);
-    mat_mult = repmat(uint8([1:i_classes_count]), i_test_points_count, 1);
-    v_results = sum(mat_mult.*mat_results, 2);
+    mat_mult = repmat([1:i_classes_count], i_test_points_count, 1);
+    v_nearest_class = sum(mat_mult.*mat_results, 2);
     
     
     
