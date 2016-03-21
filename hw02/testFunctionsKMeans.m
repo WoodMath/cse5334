@@ -1,16 +1,12 @@
     mat_test = [1,11;11,3;6,8;6,7;6,6;12,14];
-    v_test_knn = [2, 4, 2, 2, 4, 6];
-    v_test_cm = [2, 4, 2, 2, 4, 6];
-    v_test_lr = [2, 4, 2, 2, 4, 6];
-    v_test_svm = [2, 4, 2, 2, 4, 6];
     
     v_r = 0:0.5:20;
     i_l = length(v_r);
     mat_rows = repmat(v_r, [i_l,1]);
     mat_cols = mat_rows';
     
-%     mat_test = cat(3, mat_rows, mat_cols);
-%     mat_test = reshape(mat_test, i_l*i_l, 2, 1);
+    mat_test = cat(3, mat_rows, mat_cols);
+    mat_test = reshape(mat_test, i_l*i_l, 2, 1);
 
     
     i_k = 3;
@@ -18,34 +14,65 @@
     v_class = [1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,3,3]';
     v_class = v_class*2;
 
-%     v_knn = fnKNN(mat_test, mat_train, v_class, 3);
-%     v_cm = fnCentroidMethod(mat_test, mat_train, v_class);
-%     v_lr = fnLinearRegression(mat_test, mat_train, v_class);
-%     %v_svm = fnSVM_old(mat_test, mat_train, v_class);
-%     v_svm = fnSVM(mat_test, mat_train, v_class);
+%     for i_inc = 1:length(v_class)
+%         i_class = v_class(i_inc);
+%         v_point = mat_train(i_inc,:);
+%         if(i_class == 2)
+%             v_point = v_point.*[3,1];
+%         elseif(i_class == 3)
+%             v_point = v_point.*[1,4];
+%         end 
+%     end
     
     
-    [mat_confusion, v_indexes, mat_centers, v_dist] = fnConfusion(mat_train, v_class, i_k);
-    
-   % mat_results=fnSVM(mat_test,mat_train,v_class);
-    %mat_results_old=fnSVM_old(mat_test,mat_train,v_class);
-    
-    %% Cross Validation and SVM testing
-    v_model = [1, 1, 3, 1, 1];
-    
+    %% Cross Validation and SVN testing
+%     v_model = [1, 1, 3, 1, 1];
 %     v_results_subset = fnTestSubset(mat_train, v_class, v_model, [1,2,3]);
-    mat_results = fnCrossValidate( mat_train, v_class, v_model, 5, 'False' );
+%     mat_results = fnCrossValidate( mat_train, v_class, v_model, 5, 'False' );
 
     
-%     %% K-means clustering
-%     v_unique = v_class(unique(v_class));
-%     i_unique_count = length(v_unique);
-%     
-%     
-%     [v_indexes, mat_centers, v_square_sum] = kmeans(mat_train, 2);
+    %% K-means clustering
+    v_unique = v_class(unique(v_class));
+    i_unique_count = max(v_unique);
     
-    return;    
     
+    i_reps = 10;
+    i_Ks = i_unique_count+2;
+    v_x = [2:(i_Ks-1)]';
+    mat_sum = zeros(i_Ks, i_reps);
+    mat_diff = zeros(i_Ks-2, i_reps);
+    
+    for i_rep = 1:i_reps
+        v_square_sum = zeros(1,i_Ks)';
+       
+        for i_inc = 1:i_Ks
+            [v_indexes, mat_centers, v_dist] = kmeans(mat_train, i_inc);
+            v_square_sum(i_inc) = sum(v_dist);
+        end
+        v_left = v_square_sum(1:(length(v_square_sum)-2));
+        v_right = v_square_sum(3:length(v_square_sum));
+        
+        v_diff = -(v_right-v_left)/2;
+        
+%         plot(v_x,v_diff,'Color',k(i_rep,:));
+        mat_sum(:,i_rep) = v_square_sum;
+        mat_diff(:,i_rep) = v_diff;
+
+    end
+    
+    figure(1);
+%     colormap('default');
+    hold all;
+    plot([1:i_Ks],mat_sum);
+    
+    figure(2);
+%     colormap('default');
+
+    hold all;
+    plot(v_x ,mat_diff);
+    
+    
+        
     b_show_knn = 1;
     b_show_cm = 0;
     b_show_lr = 0;

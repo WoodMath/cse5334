@@ -8,6 +8,7 @@ s_file_types = {'txt','csv'};
 s_file_names = {'trainDataXY','testDataXY','testDataX'};
 
 i_dataset = 1;
+%% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
 v_cross_validate = [1, 1, 5, 1, 1];
 
 [mat_raw_faces, v_class_faces, mat_train_faces] = fnReadDat('ATNTFaceImages400.csv'); 
@@ -25,10 +26,45 @@ elseif(i_dataset == 2)
 end
 
 
-fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
+% mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
 
-
+    i_reps = 10;
+    i_Ks = max(unique(v_class));
+    v_x = [2:(i_Ks-1)]';
+    mat_sum = zeros(i_Ks, i_reps);
+    mat_diff = zeros(i_Ks-2, i_reps);
+    
+    [v_indexes, mat_centers, v_dist] = kmeans(mat_train, i_Ks);
+    
+%     for i_rep = 1:i_reps
+%         v_square_sum = zeros(1,i_Ks)';
+%        
+%         parfor i_inc = 1:i_Ks
+%             [v_indexes, mat_centers, v_dist] = kmeans(mat_train, i_inc);
+%             v_square_sum(i_inc) = sum(v_dist);
+%         end
+%         v_left = v_square_sum(1:(length(v_square_sum)-2));
+%         v_right = v_square_sum(3:length(v_square_sum));
+%         
+%         v_diff = -(v_right-v_left)/2;
+%         
+% %         plot(v_x,v_diff,'Color',k(i_rep,:));
+%         mat_sum(:,i_rep) = v_square_sum;
+%         mat_diff(:,i_rep) = v_diff;
+% 
+%     end
+%     
+%     figure(1);
+% %     colormap('default');
+%     hold all;
+%     plot([1:i_Ks],mat_sum);
+%     
+%     figure(2);
+% %     colormap('default');
+% 
+%     hold all;
+%     plot(v_x ,mat_diff);
 
 % mat_image_faces = zeros(v_size_face(1), v_size_face(2), length(v_class_faces), 'uint8');
 % mat_image_letters = zeros(v_size_letter(1), v_size_letter(2), length(v_class_letters), 'uint8');
