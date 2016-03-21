@@ -7,7 +7,7 @@ s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
 s_file_types = {'txt','csv'};
 s_file_names = {'trainDataXY', 'testDataXY', 'testDataX'};
 
-i_dataset = 1;
+i_dataset = 2;
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
 v_cross_validate = [1, 1, 5, 1, 1];
 
@@ -25,7 +25,7 @@ if(i_dataset == 1)
     i_count_samples = 10;
 elseif(i_dataset == 2)
     v_class = v_class_letters';
-    mat_train = mat_train_faces';
+    mat_train = mat_train_letters';
     v_size = v_size_letter;
     i_count_classes = 26;
     i_count_samples = 39;
@@ -35,13 +35,8 @@ end
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
 % mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
 
-    i_reps = 10;
-    i_Ks = max(unique(v_class));
-    v_x = [2:(i_Ks-1)]';
-    mat_sum = zeros(i_Ks, i_reps);
-    mat_diff = zeros(i_Ks-2, i_reps);
     
-    [mat_confusion, mat_correct, v_indexes, mat_centers, v_dist] = fnConfusion(mat_train, v_class, i_Ks);
+    [mat_confusion, mat_correct, f_correct] = fnConfusion(mat_train, v_class, i_count_classes);
     
 %     for i_rep = 1:i_reps
 %         v_square_sum = zeros(1,i_Ks)';
