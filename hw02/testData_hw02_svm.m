@@ -33,11 +33,17 @@ end
 
 
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
-mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 100, 'False');
-mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
-mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 40, 'False');
+mat_correct_100 = fnCrossValidate(mat_train, v_class, v_cross_validate, 100, 'False');      %% Results of size 4
+save mat_correct_100
 
+mat_correct_080 = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');       %% Results of size 5
+save mat_correct_080
+
+mat_correct_040 = fnCrossValidate(mat_train, v_class, v_cross_validate, 40, 'False');       %% Results of size 10
+save mat_correct_040
     
+
+
     [mat_confusion, mat_correct, f_correct] = fnConfusion(mat_train, v_class, i_count_classes);
     
 %     for i_rep = 1:i_reps
