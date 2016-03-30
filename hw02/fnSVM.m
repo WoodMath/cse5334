@@ -1,4 +1,4 @@
-function [ v_nearest_class ] = fnSVM( mat_test, mat_train, v_class )
+function [ predicted_label ] = fnSVM( mat_test, mat_train, v_class )
 % fnSVM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -54,15 +54,16 @@ function [ v_nearest_class ] = fnSVM( mat_test, mat_train, v_class )
     v_test = double(zeros(size(mat_test,1), 1));
 
     %svm_model = svmtrain(v_class, mat_train);
-    tempSVM = templateSVM('Standardize', 1, 'KernelFunction', 'gaussian');
-    svm_model = fitcecoc(mat_train, v_class, 'Learners', tempSVM, 'FitPosterior', 1);
-    [predicted_label, score] = predict(svm_model, mat_test)
-    
+    options = statset('UseParallel',1);
+    tempSVM = templateSVM('Standardize', 1, 'KernelFunction', 'linear');
+    svm_model = fitcecoc(mat_train, v_class, 'Learners', tempSVM, 'FitPosterior', 1, 'Options', options)
+    [predicted_label] = predict(svm_model, mat_test)
+    %[crossval_label] = crossval(svm_model)
     
 %     [predicted_label, accuracy, decision_values/prob_estimates] = svmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);
 %     [predicted_label] = svmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);
     %[predicted_label] = svmpredict(v_test, mat_test, svm_model);
-    v_nearest_class = predicted_label;
+    
     
     return;
 

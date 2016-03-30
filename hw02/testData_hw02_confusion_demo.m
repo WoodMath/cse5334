@@ -7,7 +7,7 @@ s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
 s_file_types = {'txt','csv'};
 s_file_names = {'trainDataXY', 'testDataXY', 'testDataX'};
 
-i_dataset = 1;
+i_dataset = 2;
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
 v_cross_validate = [1, 1, 5, 1, 1];
 
@@ -32,19 +32,69 @@ elseif(i_dataset == 2)
 end
 
 
-%% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
-mat_correct_face_100 = fnCrossValidate(mat_train, v_class, v_cross_validate, 100, 'False');      %% Results of size 4
-save('mat_correct_face_100.mat',
-mat_correct_080 = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');       %% Results of size 5
-save mat_correct_080
+[mat_confusion, mat_correct, i_correct, f_correct] = fnConfusion(mat_train, v_class, i_count_classes);
+mat_confusion_grayscale = fnSaveMatrixImage(mat_confusion,'confusion.png','png');
+mat_correct_grayscale = fnSaveMatrixImage(mat_correct,'correct.png','png');
 
-mat_correct_400 = fnCrossValidate(mat_train, v_class, v_cross_validate, 400, 'False');       %% Results of size 1
-save mat_correct_400
-    
+disp([' dataset = "', s_datasets{i_dataset}, '"']);
+disp([' Class Count = ', num2str(i_count_classes)]);
+disp([' Samples per Class = ', num2str(i_count_samples)]);
+disp([' Total Images = Class Count * Samples per Class = ', num2str(i_count_classes*i_count_samples)]);
+disp([' Image size = [', num2str(v_size), ']'])
+disp([' Image width = ', num2str(v_size(2))])
+disp([' Image height = ', num2str(v_size(1))])
+disp([' Number of ', num2str(i_count_classes*i_count_samples), ' classified correctly (Trace) = ', num2str(i_correct)])
+disp([' Percentage of ', num2str(i_count_classes*i_count_samples), ' classified correctly = ', num2str(f_correct)])
+
+i_size = 10;
+
+im_confusion_grayscale = imresize(mat_confusion_grayscale, size(mat_confusion_grayscale)*i_size,'Antialiasing',0);
+fnSaveMatrixImage(im_confusion_grayscale,'confusion.png','png');
+figure(1);
+imshow(im_confusion_grayscale);
 
 
-[mat_confusion, mat_correct, f_correct] = fnConfusion(mat_train, v_class, i_count_classes);
-    
+im_correct_grayscale = imresize(mat_correct_grayscale, size(mat_correct_grayscale)*i_size,'Antialiasing',0);
+fnSaveMatrixImage(im_correct_grayscale,'correct.png','png');
+figure(2);
+imshow(im_correct_grayscale);
+
+
+% obj_demo.mat_confusion = mat_confusion;
+% obj_demo.mat_correct = mat_correct;
+% obj_demo.i_correct = i_correct;
+% obj_demo.f_correct = f_correct;
+% obj_demo.v_class = v_class;
+% obj_demo.mat_train = mat_train;
+% obj_demo.v_size = v_size;
+% obj_demo.i_count_classes = i_count_classes;
+% obj_demo.i_count_samples = i_count_samples;
+% obj_demo.mat_confusion_grayscale = mat_confusion_grayscale;
+% obj_demo.mat_correct_grayscale = mat_confusion_grayscale;
+% 
+% save('obj_demo.mat','obj_demo');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Letter Data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% mat_correct_letters_1014 = fnCrossValidate(mat_train, v_class, v_cross_validate, 1014, 'False');        %% Results of size 1
+% save('mat_correct_letters_1014.mat','mat_correct_letters_1014')
+% 
+% mat_correct_letters_0507 = fnCrossValidate(mat_train, v_class, v_cross_validate, 0507, 'False');        %% Results of size 2
+% save('mat_correct_letters_0507.mat','mat_correct_letters_0507')
+% 
+% mat_correct_letters_0338 = fnCrossValidate(mat_train, v_class, v_cross_validate, 0338, 'False');        %% Results of size 3
+% save('mat_correct_letters_0338.mat','mat_correct_letters_0338')
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End of Data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %     for i_rep = 1:i_reps
 %         v_square_sum = zeros(1,i_Ks)';
 %        

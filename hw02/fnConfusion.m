@@ -1,4 +1,4 @@
-function [ mat_confusion, mat_correct, f_correct ] = fnConfusion( mat_train, v_class, i_k )
+function [ mat_confusion, mat_correct, i_correct, f_correct ] = fnConfusion( mat_train, v_class, i_k )
 %fnConfusion Summary of this function goes here
 %   Detailed explanation goes here
     [v_index, mat_centers, v_dist] = kmeans(mat_train, i_k);
@@ -53,7 +53,8 @@ function [ mat_confusion, mat_correct, f_correct ] = fnConfusion( mat_train, v_c
     
     
     %% Calculate percentage correct
-    f_correct = trace(mat_correct)/size(mat_train,1);
+    i_correct = trace(mat_correct);
+    f_correct = i_correct/size(mat_train,1);
     
 end
 

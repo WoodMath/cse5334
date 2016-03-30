@@ -33,8 +33,8 @@ end
 
 
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
-mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 100, 'False');
-mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
+%%mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 100, 'False');
+%%mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 80, 'False');
 mat_correct = fnCrossValidate(mat_train, v_class, v_cross_validate, 40, 'False');
 
     

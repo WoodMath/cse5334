@@ -25,7 +25,7 @@
 %     v_svm = fnSVM(mat_test, mat_train, v_class);
     
     
-    %%[mat_confusion, v_indexes, mat_centers, v_dist] = fnConfusion(mat_train, v_class, i_k);
+%    [mat_confusion, v_indexes, mat_centers, v_dist] = fnConfusion(mat_train, v_class, i_k);
     
    % mat_results=fnSVM(mat_test,mat_train,v_class);
     %mat_results_old=fnSVM_old(mat_test,mat_train,v_class);
@@ -34,11 +34,9 @@
     v_model = [1, 1, 3, 1, 1];
     
 %     v_results_subset = fnTestSubset(mat_train, v_class, v_model, [1,2,3]);
-    mat_results = fnTestSubset( mat_train, v_class, v_model, [1,2,3] );
-
-mat_results = fnCrossValidate( mat_train, v_class, v_model, 20, 'False' );
-    %%save('mat_results.mat','mat_results')
-    save mat_results
+    mat_results = fnCrossValidate_old( mat_train, v_class, v_model, 5, 'False' );
+    save('mat_results.mat','mat_results')
+    
 %     %% K-means clustering
 %     v_unique = v_class(unique(v_class));
 %     i_unique_count = length(v_unique);
