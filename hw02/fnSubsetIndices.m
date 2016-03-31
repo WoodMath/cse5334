@@ -13,6 +13,10 @@ function [ mat_subsets_numerical, mat_subsets_boolean ] = fnSubsetIndices(v_clas
     %% Should use indices, not actual class labels.
     v_index = 1:length(v_class);
     
+    if(mod(i_count_samples,i_fold)~=0)
+        error(' Training sample size cannot be evaluated at current fold number.')
+        
+    end
     
     %% Example ' v_class = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6]
     %% Arrange each class in its own row

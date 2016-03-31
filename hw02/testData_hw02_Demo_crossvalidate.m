@@ -4,18 +4,25 @@
 % %   http://www.mathworks.com/help/stats/svmclassify.html
 
 s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
-s_file_types = {'txt','csv'};
-s_file_names = {'trainDataXY', 'testDataXY', 'testDataX'};
 
-i_dataset = 1;
 
-%% Cross Validation parameters
-b_SVM = 1;
-b_KNN = 1;
-i_k = 5;
-b_CM = 1;
-b_LR = 1;
-i_fold = 5;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Cross Validation parameters  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Control everything from next 7 lines
+i_dataset = 2;          % 1 for Face Images, 2 for HandWritten Letters
+b_SVM = 1;              % Cross validate on SVM? 1st column of results will be 0 otherwise.
+b_KNN = 1;              % Cross validate on KNN? 2nd column of results will be 0 otherwise.
+i_k = 5;                % If so what is K?
+b_CM = 1;               % Cross validate on CM? 3rd column of results will be 0 otherwise.
+b_LR = 1;               % Cross validate on LR? 4th column of results will be 0 otherwise
+i_fold = 13;            % Good values to use are i_fold = 5 for i_dataset = 1 and i_fold = 13 for i_dataset = 2 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 v_cross_validate = [b_SVM, b_KNN, i_k, b_CM, b_LR];
 
 [mat_raw_faces, v_class_faces, mat_train_faces] = fnReadDat('ATNTFaceImages400.csv'); 

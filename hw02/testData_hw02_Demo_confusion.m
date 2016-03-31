@@ -4,11 +4,13 @@
 % %   http://www.mathworks.com/help/stats/svmclassify.html
 
 s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
-s_file_types = {'txt','csv'};
-s_file_names = {'trainDataXY', 'testDataXY', 'testDataX'};
 
-i_dataset = 2;
-%% Cross Validation parameters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        Dataset Choice        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Control Process from this one Line
+i_dataset = 1;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [mat_raw_faces, v_class_faces, mat_train_faces] = fnReadDat('ATNTFaceImages400.csv'); 
 [mat_raw_letters, v_class_letters, mat_train_letters] = fnReadDat('HandWrittenLetters.csv'); 
