@@ -1,0 +1,14 @@
+More data sets
+Posted on: Wednesday, March 9, 2016 11:59:00 PM CST
+data set: ATNT-face-image400.txt  :
+
+Text file. 1st row is cluster labels. 2nd-end rows: each colum is a feature vectors (vector length=28x23).
+
+Total 40 classes. each class has 10 images. Total image = 40*10=400.
+
+
+data set: Hand-written-26-letters.txt :
+
+Text file. 1st row is cluster labels. 2nd-end rows: each colum is a feature vectors (vector length=20x16).
+
+Total 26 classes. each class has 39 images. Total image = 26*39=1014.
