@@ -26,10 +26,10 @@ function [ mat_out ] = fnImageExpand( mat_image, v_scale )
     i_lens = i_rows*i_cols;
     
     i_pixel_size = length(size(mat_image));
-    i_max_num = max(i_rows,i_cols);
+    f_max = max(double(i_rows*v2_scale(1)),double(i_cols*v2_scale(2)));
 
     i_size = 0;
-    if(i_max_num < 2^8)
+    if(f_max < 2^8)
         i_size = 1; % uint8
     elseif(f_max < 2^16)
         i_size = 2; % uint16
@@ -68,7 +68,7 @@ function [ mat_out ] = fnImageExpand( mat_image, v_scale )
         i_col_start = (i_col-1)*v2_scale(2)+1;
         i_col_stop = (i_col-1)*v2_scale(2)+v2_scale(2);
         
-% %         disp([' [i_inc, i_row, i_col] = [', num2str(i_inc), ', ' , num2str(i_row), ', ', num2str(i_col), ']']);
+%         disp([' [i_inc, i_row, i_col] = [', num2str(i_inc), ', ' , num2str(i_row), ', ', num2str(i_col), ']']);
         if(i_pixel_size==2)
             v_pixel = mat_image(i_row,i_col);
             mat_pixel = repmat(v_pixel, [v2_scale(1),v2_scale(2)]);

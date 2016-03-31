@@ -1,4 +1,4 @@
-function [ predicted_label ] = fnSVM( mat_test, mat_train, v_class )
+function [ v_nearest_class ] = fnSVM( mat_test, mat_train, v_class )
 % fnSVM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -53,29 +53,26 @@ function [ predicted_label ] = fnSVM( mat_test, mat_train, v_class )
     v_class = double(v_class);
     v_test = double(zeros(size(mat_test,1), 1));
 
-    %svm_model = svmtrain(v_class, mat_train);
-    options = statset('UseParallel',1);
-    tempSVM = templateSVM('Standardize', 1, 'KernelFunction', 'linear');
-    svm_model = fitcecoc(mat_train, v_class, 'Learners', tempSVM, 'FitPosterior', 1, 'Options', options)
-    [predicted_label] = predict(svm_model, mat_test)
-    %[crossval_label] = crossval(svm_model)
-    
-%     [predicted_label, accuracy, decision_values/prob_estimates] = svmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);
-%     [predicted_label] = svmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);
-    %[predicted_label] = svmpredict(v_test, mat_test, svm_model);
-    
+    svm_model = svmtrain(v_class,mat_train);
+    v_predicted_label = svmpredict(v_test, mat_test, svm_model);
+    v_nearest_class = v_predicted_label;
     
     return;
 
+    %% Code below uses SVM on binary data
+    %% It also uses MatLab default 'svmtrain' which is different from libSVM version of 'svmtrain'
+    %% If code belo results in error, move the libSVM mex files to a different location, so MatLab version becomes default
     mat_results = zeros(i_test_points_count, i_classes_count);
     
+    %% Group indictors by uinique class
     for i_class = v_unique
         v_class_ind = (i_class == v_class);
-        SVMStruct = svmtrain(mat_train, v_class_ind);
-        svm_results = svmclassify(SVMStruct, mat_test);
+        svm_model = svmtrain(mat_train, v_class_ind);
+        svm_results = svmclassify(svm_model, mat_test);
         mat_results(:,i_class) = svm_results;
     end
     
+    %% Map indictor back to appropriate class
     v_count = sum(mat_results, 2);
     mat_mult = repmat([1:i_classes_count], i_test_points_count, 1);
     v_nearest_class = sum(mat_mult.*mat_results, 2);
