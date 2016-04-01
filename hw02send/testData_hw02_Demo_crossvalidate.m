@@ -12,7 +12,7 @@ s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Control everything from next 7 lines
 i_dataset = 2;          % 1 for Face Images, 2 for HandWritten Letters
-b_SVM = 1;              % Cross validate on SVM? 1st column of results will be 0 otherwise.
+b_SVM = 0;              % Cross validate on SVM? 1st column of results will be 0 otherwise.
 b_KNN = 1;              % Cross validate on KNN? 2nd column of results will be 0 otherwise.
 i_k = 5;                % If so what is K?
 b_CM = 1;               % Cross validate on CM? 3rd column of results will be 0 otherwise.
