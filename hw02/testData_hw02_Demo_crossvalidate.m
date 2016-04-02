@@ -17,7 +17,7 @@ b_KNN = 1;              % Cross validate on KNN? 2nd column of results will be 0
 i_k = 5;                % If so what is K?
 b_CM = 1;               % Cross validate on CM? 3rd column of results will be 0 otherwise.
 b_LR = 1;               % Cross validate on LR? 4th column of results will be 0 otherwise
-i_fold = 5;            % Good values to use are i_fold = 5 for i_dataset = 1 and i_fold = 13 for i_dataset = 2 
+i_fold = 3;             % Fixed to resolve issues discussed in class on 4/1/2016 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

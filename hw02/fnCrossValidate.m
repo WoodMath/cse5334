@@ -17,23 +17,21 @@ function [ mat_correct, i_correct, f_correct] = fnCrossValidate( mat_train, v_cl
     i_subset_size = double(round(i_train_points_count/i_fold));
     
 
-    [mat_subsets, mat_indices] = fnSubsetIndices(v_class, i_fold, i_count_classes, i_count_samples);
-    
-    i_subset_count = size(mat_subsets,1);
+    [cell_subsets, cell_indices] = fnSubsetIndices(v_class, i_fold, i_count_classes, i_count_samples);
 
     i_correct_svm = 0;
     i_correct_knn = 0;
     i_correct_cm = 0;
     i_correct_lr = 0;
     
-    mat_correct = zeros(i_subset_count, 4);
+    mat_correct = zeros(i_fold, 4);
     
     display(' ');
-    for i_inc = 1:i_subset_count
+    for i_inc = 1:i_fold
         
-        display([' Subset = ',num2str(i_inc),' / ', num2str(i_subset_count)]);
+        display([' Fold = ',num2str(i_inc),' / ', num2str(i_fold)]);
         %% Establish indictor vectors for which data to include in new training and test vectors
-        v_test = logical(mat_indices(i_inc,:))';
+        v_test = logical(cell_indices{i_inc,1})';
         v_train = not(v_test);
 
         %% Establish cross validation test and training data
@@ -75,4 +73,3 @@ function [ mat_correct, i_correct, f_correct] = fnCrossValidate( mat_train, v_cl
     f_correct = i_correct / i_count_classes / i_count_samples;
     
 end
-

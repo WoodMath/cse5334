@@ -1,4 +1,4 @@
-function [ v_correct] = fnTestSubset( mat_train, v_class, v_model, v_subset )
+function [ v_correct, f_correct] = fnTestSubset( mat_train, v_class, v_model, v_subset )
 %fnCrossValidate Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -71,6 +71,9 @@ function [ v_correct] = fnTestSubset( mat_train, v_class, v_model, v_subset )
     v_correct(2) = sum(v_class_knn == v_test_class);
     v_correct(3) = sum(v_class_cm == v_test_class);
     v_correct(4) = sum(v_class_lr == v_test_class);
+    
+    v_correct = v_correct';
+    f_correct = v_correct/length(v_subset);
     
 
     

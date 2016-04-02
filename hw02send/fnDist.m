@@ -1,14 +1,32 @@
 function [ mat_dist ] = fnDist( mat_test, mat_train )
 %UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%   Takes an matrix SxC matrix 'mat_test' and RxC matrix 'mat_train' and
+%   calculates distance from every point in 'mat_test' to every point in 
+%   'mat_train'. Resulting matrix 'mat_dist' is RxS
     
-    % Calculates distance from each point in 'mat_test' to every point in
-    % 'mat_train'
 
     if(size(mat_test,2)~=size(mat_train,2))
         error('Mismatch in dimension size of points');
     end
 
+    mat_dist = zeros(size(mat_train,1), size(mat_test,1));
+    parfor i_inc = 1:size(mat_test,1)
+         % Expand test point to matrix to do distance calculation
+         % against training matrix
+         mat_test_row = repmat(mat_test(i_inc,:), size(mat_train,1), 1);
+         % Cacluate square distance by summing up square distnance of
+         % all vector components along row
+         mat_square_dist_row = sum((mat_test_row - mat_train).^2,2);
+         % Get actual distances
+         mat_dist_col = mat_square_dist_row.^.5;
+         % Each test point its own column
+         mat_dist(:,i_inc) = mat_dist_col;
+        
+         
+    end
+          
+    return
+    
     i_test_points_count = size(mat_test,1);
     i_train_points_count = size(mat_train,1);
     
