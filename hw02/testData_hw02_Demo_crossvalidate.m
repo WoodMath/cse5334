@@ -17,7 +17,7 @@ b_KNN = 1;              % Cross validate on KNN? 2nd column of results will be 0
 i_k = 5;                % If so what is K?
 b_CM = 1;               % Cross validate on CM? 3rd column of results will be 0 otherwise.
 b_LR = 1;               % Cross validate on LR? 4th column of results will be 0 otherwise
-i_fold = 10;             % Fixed to resolve issues discussed in class on 4/1/2016 
+i_fold = 5;             % Fixed to resolve issues discussed in class on 4/1/2016 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
