@@ -11,13 +11,13 @@ s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
 %% Cross Validation parameters  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Control everything from next 7 lines
-i_dataset = 2;          % 1 for Face Images, 2 for HandWritten Letters
+i_dataset = 2           % 1 for Face Images, 2 for HandWritten Letters
 b_SVM = 1;              % Cross validate on SVM? 1st column of results will be 0 otherwise.
 b_KNN = 1;              % Cross validate on KNN? 2nd column of results will be 0 otherwise.
 i_k = 5;                % If so what is K?
 b_CM = 1;               % Cross validate on CM? 3rd column of results will be 0 otherwise.
 b_LR = 1;               % Cross validate on LR? 4th column of results will be 0 otherwise
-i_fold = 11;             % Fixed to resolve issues discussed in class on 4/1/2016 
+i_fold = 5;             % Fixed to resolve issues discussed in class on 4/1/2016 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -47,25 +47,27 @@ end
 
 
 
+
+cell_results = cell(26,1);
+for i = 2:26
 if(logical(b_SVM))
-    display([' Running SVM in Crosss Validation with i_fold = ', num2str(i_fold)]);
+    display([' Running SVM in Cross Validation with i_fold = ', num2str(i)]);
 end
 if(logical(b_KNN))
-    display([' Running KNN in Crosss Validation with i_k = ', num2str(i_k), ' and i_fold = ', num2str(i_fold)]);
+    display([' Running KNN in Cross Validation with i_k = ', num2str(i_k), ' and i_fold = ', num2str(i)]);
 end
 if(logical(b_CM))
-    display([' Running CM in Crosss Validation with i_fold = ', num2str(i_fold)]);
+    display([' Running CM in Cross Validation with i_fold = ', num2str(i)]);
 end
 if(logical(b_LR))
-    display([' Running LR in Crosss Validation with i_fold = ', num2str(i_fold)]);
+    display([' Running LR in Cross Validation with i_fold = ', num2str(i)]);
 end
 
-
-
-
 %% [Perform SVM, Perform KNN, K in KNN, Perform CM, Perform LR];
-[mat_correct, i_correct, f_correct] = fnCrossValidate(mat_train, v_class, v_cross_validate, i_fold, i_count_classes, i_count_samples);       %% Results of size 1
-
+[mat_correct, i_correct, f_correct] = fnCrossValidate(mat_train, v_class, v_cross_validate, i, i_count_classes, i_count_samples);       %% Results of size 1
+cell_results{i} = (horzcat(num2str(f_correct)));
+        
+end
 
 disp([' Dataset = "', s_datasets{i_dataset}, '"']);
 disp([' Class Count = ', num2str(i_count_classes)]);

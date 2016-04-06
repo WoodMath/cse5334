@@ -9,6 +9,9 @@ function [ cell_subsets_numerical, cell_subsets_boolean ] = fnSubsetIndices(v_cl
 %     i_count_classes = 6;
 %     i_count_samples = 10;
 
+    if(i_fold > i_count_samples)
+        error(' You cannot have more folds than the number of datapoints in a class ');
+    end
     
     %% Should use indices, not actual class labels.
     v_index = 1:length(v_class);
