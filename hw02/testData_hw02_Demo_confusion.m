@@ -9,7 +9,7 @@ s_datasets = {'ATNTFaceImages400','HandWrittenLetters'};
 %%        Dataset Choice        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Control Process from this one Line
-i_dataset = 1;
+i_dataset = 2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [mat_raw_faces, v_class_faces, mat_train_faces] = fnReadDat('ATNTFaceImages400.csv'); 
