@@ -41,61 +41,47 @@ function [ mat_correct, i_correct, f_correct] = fnCrossValidate( mat_train, v_cl
         v_train_class = v_class(v_train);
 
         %% vectors to test for equivalence with 'v_test_class'
-        v_class_svm = double(v_test_class*0+-1);
+        v_class_svm = v_test_class*0+-1;
         v_class_knn = v_test_class*0+-1;
         v_class_cm = v_test_class*0+-1;
         v_class_lr = v_test_class*0+-1;
         
         if logical(b_svm)
-
-            [v_class_svm, cell_class, mat_results] = fnSVM( mat_test_use, mat_train_use, v_train_class );
-            
-            %% For each row assign boolean indicators for classes (of column number) that row belongs to
-            mat_test_class = (repmat(v_test_class, [1,size(mat_results,2)]) == repmat([1:size(mat_results,2)], [size(mat_results,1),1]));
-            %% Only used elements in the row for which inclass are correctly classified (ie. 1==1) 
-            %% and out of class are correctly classified (ie. 0==0)
-            mat_equality = mat_results==double(mat_test_class);
-            %% Treat each data point as only a single correct (i.e. divide the number of correct classifications by total number of classifications made)
-            v_equality = sum(mat_equality,2)/size(mat_equality,2);
-            mat_correct(i_inc,1) = sum(v_equality);
-
-%             for j_inc = 1:length(v_test_class)
-%                 
-%                 %% Get classifications for for point number 'j_inc'
-%                 v_test = cell_class{j_inc,1};
-%                 
-%                 %% If only 1 classification was made
-%                 if(length(v_test) == 1)
-%                     v_class_svm(j_inc) = v_test;
-%                 else
-%                     i_actual_class = v_test_class(j_inc);
-%                     if size(find(v_test==i_actual_class), 2) > 0
-%                         % Was correctly classified
-%                         v_class_svm(j_inc) = i_actual_class;
-%                     else
-%                         % Was incorrectly classified
-%                         v_class_svm(j_inc) = -1;
-%                     end
-%                 end
-%             end
+            [v_class_svm, cell_class] = fnSVM( mat_test_use, mat_train_use, v_train_class );
+            for j_inc = 1:length(v_test_class)
+                v_test = cell_class{j_inc,1};
+                if(length(v_test) == 1)
+                    v_class_svm(j_inc) = v_test;
+                else
+                    i_actual_class = v_test_class(j_inc);
+                    if size(find(v_test==i_actual_class), 2) > 0
+                        % Was correctly classified
+                        v_class_svm(j_inc) = i_actual_class;
+                    else
+                        % Was incorrectly classified
+                        v_class_svm(j_inc) = -1;
+                    end
+                end
+            end
         end
 
         if logical(b_knn)
            v_class_knn = fnKNN( mat_test_use, mat_train_use, v_train_class, i_k );
-            mat_correct(i_inc,2) = sum(v_class_knn == v_test_class);
         end
 
         if logical(b_cm)
             v_class_cm = fnCentroidMethod( mat_test_use, mat_train_use, v_train_class );
-            mat_correct(i_inc,3) = sum(v_class_cm == v_test_class);
         end
 
         if logical(b_lr)
             v_class_lr = fnLinearRegression( mat_test_use, mat_train_use, v_train_class );
-            mat_correct(i_inc,4) = sum(v_class_lr == v_test_class);
         end
         
 
+        mat_correct(i_inc,1) = sum(v_class_svm == v_test_class);
+        mat_correct(i_inc,2) = sum(v_class_knn == v_test_class);
+        mat_correct(i_inc,3) = sum(v_class_cm == v_test_class);
+        mat_correct(i_inc,4) = sum(v_class_lr == v_test_class);
     end
     
     i_correct = sum(mat_correct);

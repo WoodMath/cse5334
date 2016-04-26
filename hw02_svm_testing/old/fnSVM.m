@@ -1,4 +1,4 @@
-function [ v_nearest_class, cell_class, mat_results ] = fnSVM( mat_test, mat_train, v_class )
+function [ predicted_label ] = fnSVM( mat_test, mat_train, v_class )
 % fnSVM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -23,7 +23,6 @@ function [ v_nearest_class, cell_class, mat_results ] = fnSVM( mat_test, mat_tra
     i_unique_classes_count = length(v_unique);
     i_classes_count = max(v_unique);
 
-    cell_class = cell(i_test_points_count,1);
 % % % % matlab> model = svmtrain(training_label_vector, training_instance_matrix [, 'libsvm_options']);
 % % % % 
 % % % %         -training_label_vector:
@@ -49,47 +48,50 @@ function [ v_nearest_class, cell_class, mat_results ] = fnSVM( mat_test, mat_tra
 % % % %             A string of testing options in the same format as that of LIBSVM.    
 
 
-%     mat_test = double(mat_test);
-%     mat_train = double(mat_train);
-%     v_class = double(v_class);
-%     v_test = double(zeros(size(mat_test,1), 1));
-% 
-%     svm_model = svmtrain(v_class,mat_train);
-%     v_predicted_label = svmpredict(v_test, mat_test, svm_model);
-%     v_nearest_class = v_predicted_label;
-    
-%     return;
+    mat_test = double(mat_test);
+    mat_train = double(mat_train);
+    v_class = double(v_class);
+    v_test = double(zeros(size(mat_test,1), 1));
 
-    %% Code below uses SVM on binary data
-    %% It also uses MatLab default 'svmtrain' which is different from libSVM version of 'svmtrain'
-    %% If code below results in error, move the libSVM mex files to a different location, so MatLab version becomes default
+    %svm_model = svmtrain(v_class, mat_train);
+    options = statset('UseParallel',1);
+    tempSVM = templateSVM('Standardize', 1, 'KernelFunction', 'linear');
+    %%svm_model = fitcecoc(mat_train, v_class, 'Learners', tempSVM, 'FitPosterior', 1, 'Options', options)
+    temp_v_class=zeros(size(mat_train,1),1);
+    
+    for i=[unique(v_class)']
+        for j=[1:length(v_class)]
+            if(i == v_class(j))
+                temp_v_class(j) = 1;
+            else
+                temp_v_class(j) = 0;
+            end
+        end
+        svm_model = fitcsvm(mat_train, temp_v_class');
+        predicted_indic = predict(svm_model, mat_test);
+        predicted_label = predicted_label+i*pre; 
+        display(['i = ', num2str(i), ' ; predicted_label = ', num2str(predicted_label')])
+    end
+    %[crossval_label] = crossval(svm_model)
+    
+%     [predicted_label, accuracy, decision_values/prob_estimates] = svmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);
+%     [predicted_label] = svmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);
+    %[predicted_label] = svmpredict(v_test, mat_test, svm_model);
+    
+    
+    return;
+
     mat_results = zeros(i_test_points_count, i_classes_count);
     
-    %% Group indictors by uinique class
     for i_class = v_unique
         v_class_ind = (i_class == v_class);
-        svm_model = svmtrain(mat_train, v_class_ind);
-        svm_results = svmclassify(svm_model, mat_test);
+        SVMStruct = svmtrain(mat_train, v_class_ind);
+        svm_results = svmclassify(SVMStruct, mat_test);
         mat_results(:,i_class) = svm_results;
     end
     
-    %% Map indictor back to appropriate class
     v_count = sum(mat_results, 2);
     mat_mult = repmat([1:i_classes_count], i_test_points_count, 1);
-    mat_class_ind = mat_mult.*mat_results;
-    
-    
-    for i_inc = 1:i_test_points_count
-        v_classes_of_test_point = sort(unique(mat_class_ind(i_inc,:))')';
-        i_len = length(v_classes_of_test_point);
-        if(i_len==1) 
-            cell_class{i_inc,1} = -1;
-        else
-            cell_class{i_inc,1} = v_classes_of_test_point(2:i_len);
-        end
-            
-    end
-    
     v_nearest_class = sum(mat_mult.*mat_results, 2);
     
     
