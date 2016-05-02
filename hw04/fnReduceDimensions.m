@@ -1,4 +1,4 @@
-function [ mat_new ] = fnReduceDimensions( mat_data, i_dimension_count )
+function [ mat_new, mat_U, mat_Xdlm_ito_eigU, mat_mean, v_mean ] = fnReduceDimensions( mat_data, i_dimension_count )
 %fnReduceDimensions reduces data
 %   takes data from 'mat_data' and reduces it to 'i_dimension_count')
 
@@ -45,8 +45,8 @@ function [ mat_new ] = fnReduceDimensions( mat_data, i_dimension_count )
     %% mat_data_less_mean = mat_U * mat_Xdlm_ito_eigU;
     %% mat_U' * mat_data_less_mean = mat_U' * mat_U * mat_Xtlm_ito_eigU
     %% inv(mat_U' * mat_U) * mat_U' * mat_data_less_mean = inv(mat_U' * mat_U) * (mat_U' * mat_U) * mat_Xdlm_ito_eigU = mat_Xdlm_ito_eigU
-    mat_Xdlm_ito_eigU = inv(mat_U' * mat_U) * mat_U' * mat_data_less_mean;
-
+%     mat_Xdlm_ito_eigU = inv(mat_U' * mat_U) * mat_U' * mat_data_less_mean;
+    mat_Xdlm_ito_eigU = fnXitoU(mat_data_less_mean, mat_U);
     
     %% Get first 'i_dimension_count' Eigen vectors - mat_U(:, [1:i_dimension_count])
     %% and the first 'i_dimension_count' vector components - mat_Xdlm_ito_eigU([1:i_dimension_count], :)

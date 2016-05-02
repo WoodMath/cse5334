@@ -1,4 +1,4 @@
-function [ v_nearest_class, cell_class ] = fnSVM( mat_test, mat_train, v_class )
+function [ v_nearest_class, cell_class, mat_results ] = fnSVM( mat_test, mat_train, v_class )
 % fnSVM Summary of this function goes here
 %   Detailed explanation goes here
 
